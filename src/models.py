@@ -17,3 +17,61 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+
+class Favourites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    nameFavourite = db.Column(db.String(30), unique= False, nullable=False)
+    typeFavourite = db.Column(db.String(30), unique= False, nullable=False)
+    rel = db.relationship('User')
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "nameFavourite": self.nameFavourite,
+            "typeFavourite": self.typeFavourite
+        }
+
+class People(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique= True, nullable=False)
+    homeworld = db.Column(db.String(30), unique= False, nullable=False)
+    age = db.Column(db.Integer)
+    vehicle = db.Column(db.String(30), unique= False, nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "homeworld": self.homeworld,
+            "vehicle": self.vehicle,
+            "age": self.age,
+        }
+
+class Planets(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique= True, nullable=False)
+    diameter = db.Column(db.Integer)
+    population = db.Column(db.Integer)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "diameter": self.diameter,
+            "population": self.population
+        }
+
+class Vehicles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique= True, nullable=False)
+    model = db.Column(db.Integer)
+    load_capacity = db.Column(db.Integer)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "model": self.model,
+            "load_capacity": self.load_capacity
+        }        
